@@ -2,28 +2,38 @@ import requests
 import pandas as pd
 from pathlib import Path
 
-url = "https://api.open-meteo.com/v1/forecast?latitude=49.2827&longitude=-123.1207&current=temperature_2m,wind_speed_10m,precipitation&timezone=auto"
+cities = {
+    "Vancouver": (49.2827, -123.1207),
+    "Kamloops": (50.6745, -120.3273),
+    "Kelowna": (49.8880, -119.4960),
+    "Prince George": (53.9171, -122.7497)
+}
 
-response = requests.get(url)
+all_weather_data = []
 
-if response.status_code != 200:
-    print("Request failed with status code:", response.status_code)
-    exit()
+for city, (latitude, longitude) in cities.items():
+    url = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date=2026-11-01&end_date=2026-11-05&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=America/Vancouver"
+    
+    response = requests.get(url)
 
-data = response.json()
-current = data['current']
+    if response.status_code != 200:
+        print(f"Request failed for {city} with status code:", response.status_code)
+        exit()
 
-temperature = current['temperature_2m']
-wind_speed = current['wind_speed_10m']
-precipitation = current.get('precipitation', 0)
-timestamp = current["time"]
+    data = response.json()
+    daily = data['daily']
 
-weather_df = pd.DataFrame([{
-    'temperature': temperature,
-    'wind_speed': wind_speed,
-    'precipitation': precipitation,
-    'timestamp': timestamp
-}])
+    city_df = pd.DataFrame({
+        "city": city,
+        "date": daily["time"],
+        "temperature_max": daily["temperature_2m_max"],
+        "temperature_min": daily["temperature_2m_min"],
+        "precipitation": daily["precipitation_sum"]
+    })
+
+    all_weather_data.append(city_df)
+
+weather_df = pd.concat(all_weather_data, ignore_index=True)
 
 project_root = Path(__file__).resolve().parents[2]
 

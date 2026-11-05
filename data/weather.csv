@@ -1,2 +1,21 @@
-temperature,wind_speed,precipitation,timestamp
-7.4,1.1,0.0,2026-11-03T23:00
+city,date,temperature_max,temperature_min,precipitation
+Vancouver,2026-11-01,9.2,3.7,0.0
+Vancouver,2026-11-02,9.3,3.9,0.0
+Vancouver,2026-11-03,11.3,6.4,0.0
+Vancouver,2026-11-04,11.7,4.4,4.3
+Vancouver,2026-11-05,11.1,6.9,1.8
+Kamloops,2026-11-01,7.1,-0.3,0.0
+Kamloops,2026-11-02,10.0,-0.5,0.0
+Kamloops,2026-11-03,8.6,1.7,0.0
+Kamloops,2026-11-04,9.5,1.1,0.0
+Kamloops,2026-11-05,11.6,2.0,0.0
+Kelowna,2026-11-01,9.3,2.6,0.3
+Kelowna,2026-11-02,7.7,2.6,0.0
+Kelowna,2026-11-03,7.3,4.5,0.0
+Kelowna,2026-11-04,8.0,3.6,0.0
+Kelowna,2026-11-05,10.1,4.5,1.2
+Prince George,2026-11-01,5.4,-3.5,0.0
+Prince George,2026-11-02,7.0,1.5,3.5
+Prince George,2026-11-03,6.5,2.6,6.2
+Prince George,2026-11-04,7.4,0.7,0.3
+Prince George,2026-11-05,8.6,1.7,0.2
