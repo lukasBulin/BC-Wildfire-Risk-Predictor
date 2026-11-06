@@ -6,6 +6,9 @@ venv/
 __pycache__/
 *.pyc
 
+data/viirs-jpss1_2025_Canada.csv
+data/bc_wildfires_2025.csv
+
 # Jupyter
 .ipynb_checkpoints/
 

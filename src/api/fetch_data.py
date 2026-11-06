@@ -12,7 +12,7 @@ cities = {
 all_weather_data = []
 
 for city, (latitude, longitude) in cities.items():
-    url = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date=2026-11-01&end_date=2026-11-05&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=America/Vancouver"
+    url = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date=2025-05-01&end_date=2025-09-30&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=America/Vancouver"
     
     response = requests.get(url)
 
@@ -28,7 +28,8 @@ for city, (latitude, longitude) in cities.items():
         "date": daily["time"],
         "temperature_max": daily["temperature_2m_max"],
         "temperature_min": daily["temperature_2m_min"],
-        "precipitation": daily["precipitation_sum"]
+        "precipitation": daily["precipitation_sum"],
+        "wind_speed_max": daily["wind_speed_10m_max"]
     })
 
     all_weather_data.append(city_df)
