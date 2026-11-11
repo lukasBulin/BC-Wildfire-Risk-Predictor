@@ -2,18 +2,33 @@ import requests
 import pandas as pd
 from pathlib import Path
 
-cities = {
-    "Vancouver": (49.2827, -123.1207),
-    "Kamloops": (50.6745, -120.3273),
-    "Kelowna": (49.8880, -119.4960),
-    "Prince George": (53.9171, -122.7497)
-}
+cities = [
+    ("Vancouver", "Lower Mainland", 49.2827, -123.1207),
+    ("Victoria", "Vancouver Island", 48.4284, -123.3656),
+    ("Kelowna", "Okanagan", 49.8880, -119.4960),
+    ("Kamloops", "Thompson", 50.6745, -120.3273),
+    ("Williams Lake", "Cariboo", 52.1415, -122.1417),
+    ("Prince George", "Northern Interior", 53.9171, -122.7497),
+    ("Fort St John", "Northeast", 56.2468, -120.8477),
+    ("Smithers", "Northwest", 54.7804, -127.1743)
+]
 
 all_weather_data = []
 
-for city, (latitude, longitude) in cities.items():
-    url = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date=2025-05-01&end_date=2025-09-30&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=America/Vancouver"
-    
+for city, region, latitude, longitude in cities:
+    url = (
+    f"https://archive-api.open-meteo.com/v1/archive?"
+    f"latitude={latitude}"
+    f"&longitude={longitude}"
+    f"&start_date=2025-05-01"
+    f"&end_date=2025-09-30"
+    f"&daily=temperature_2m_max,"
+    f"temperature_2m_min,"
+    f"precipitation_sum,"
+    f"wind_speed_10m_max"
+    f"&timezone=America/Vancouver"
+)
+
     response = requests.get(url)
 
     if response.status_code != 200:
@@ -25,6 +40,7 @@ for city, (latitude, longitude) in cities.items():
 
     city_df = pd.DataFrame({
         "city": city,
+        "region": region,
         "date": daily["time"],
         "temperature_max": daily["temperature_2m_max"],
         "temperature_min": daily["temperature_2m_min"],
@@ -41,5 +57,3 @@ project_root = Path(__file__).resolve().parents[2]
 csv_path = project_root / "data" / "weather.csv"
 
 weather_df.to_csv(csv_path, index=False)
-
-print("Weather data saved!")

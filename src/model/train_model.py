@@ -5,17 +5,18 @@ from sklearn.metrics import mean_absolute_error, r2_score
 
 df = pd.read_csv("data/processed_data.csv")
 
-X = df[
-    [
-        "temperature_max",
-        "temperature_min",
-        "precipitation",
-        "wind_speed_max",
-        "month",
-        "day_of_year",
-        "previous_day_hotspots"
+df = pd.get_dummies(
+    df,
+    columns=["region"]
+)
+
+X = df.drop(
+    columns=[
+        "date",
+        "hotspot_count",
+        "total_frp"
     ]
-]
+)
 
 import numpy as np
 
@@ -76,8 +77,6 @@ print(results.head(20))
 import joblib
 
 joblib.dump(
-    model,
-    "data/wildfire_model.pkl"
+    X.columns.tolist(),
+    "data/model_columns.pkl"
 )
-
-print("Model saved successfully.")
