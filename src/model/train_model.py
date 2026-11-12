@@ -77,6 +77,11 @@ print(results.head(20))
 import joblib
 
 joblib.dump(
+    model,
+    "data/wildfire_model.pkl"
+)
+
+joblib.dump(
     X.columns.tolist(),
     "data/model_columns.pkl"
 )
